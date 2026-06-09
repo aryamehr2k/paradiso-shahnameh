@@ -10,6 +10,13 @@ idiom of **Persian miniature painting**, the *Shahnameh* manuscript tradition.
 
 The story stays Dante. The picture becomes a Safavid folio.
 
+## Play it
+
+An interactive, choose-your-line adaptation of *Paradiso* XXX: you play as Dante,
+speaking to Beatrice as you ascend, with multiple endings depending on what you
+say and how you choose to see. **Play it live:**
+[aryamehr2k.github.io/paradiso-shahnameh](https://aryamehr2k.github.io/paradiso-shahnameh/)
+
 We do it by training a small **style LoRA** on public-domain Persian-miniature
 folios, then prompting **FLUX.1-dev** with the three beats of Canto XXX — the
 river of light, its transformation into a rose, and the rose in full.

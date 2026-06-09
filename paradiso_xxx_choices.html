@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The River of Light — choose your way through Paradiso XXX</title>
+<style>
+  :root{
+    --ink:#080b20;--ink2:#0d1230;--lapis:#22357e;--lapis-line:#33489c;
+    --gold:#f2c25a;--gold-bright:#ffe39a;--radiance:#fff7e2;--blush:#e2a3b0;
+    --ivory:#efe7d3;--violet:#9aa0e6;
+    --display:"Palatino Linotype","Book Antiqua",Palatino,Georgia,"Times New Roman",serif;
+    --body:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --persian:"Vazirmatn","Noto Naskh Arabic","Scheherazade New","Geeza Pro",Tahoma,serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;min-height:100%;}
+  body{
+    background:radial-gradient(140% 120% at 50% 0%, #141a44 0%, var(--ink2) 42%, var(--ink) 100%) fixed;
+    color:var(--ivory);font-family:var(--body);line-height:1.7;-webkit-font-smoothing:antialiased;
+  }
+  /* funny background swaps */
+  body.fx-fire{background:radial-gradient(120% 120% at 50% 120%, #8a1800 0%, #2a0600 58%, #120200 100%) fixed;animation:flick .26s steps(2) infinite;}
+  @keyframes flick{0%{filter:brightness(1)}100%{filter:brightness(1.16)}}
+  body.fx-moon{background:radial-gradient(circle at 72% 26%, #ded8c6 0 5.5%, rgba(222,216,198,.15) 6%, transparent 6.6%),radial-gradient(150% 120% at 50% 0%, #0a0f33 0%, #05060f 72%) fixed;}
+  body.fx-meme{background:linear-gradient(45deg,#ff3db4,#34e1ff,#ffe600,#ff3db4) fixed;background-size:320% 320%;animation:memeShift 3s linear infinite;}
+  @keyframes memeShift{0%{background-position:0 50%}100%{background-position:320% 50%}}
+  body.fx-meme .card{font-family:"Comic Sans MS","Comic Sans","Chalkboard SE",cursive;text-shadow:0 1px 3px rgba(0,0,0,.55);animation:wob .4s ease-in-out infinite alternate;}
+  @keyframes wob{from{transform:rotate(-1.3deg)}to{transform:rotate(1.3deg)}}
+
+  .dust{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
+    background-image:
+      radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,231,160,.7), transparent),
+      radial-gradient(1.5px 1.5px at 75% 16%, rgba(255,231,160,.5), transparent),
+      radial-gradient(1px 1px at 40% 70%, rgba(200,210,240,.5), transparent),
+      radial-gradient(1.5px 1.5px at 88% 60%, rgba(255,231,160,.5), transparent),
+      radial-gradient(1px 1px at 12% 82%, rgba(200,210,240,.5), transparent),
+      radial-gradient(1px 1px at 60% 90%, rgba(255,231,160,.4), transparent);}
+  .frame{position:fixed;inset:13px;z-index:1;pointer-events:none;border:1px solid rgba(242,194,90,.26);}
+  .frame::after{content:"";position:absolute;inset:6px;border:1px solid rgba(242,194,90,.13);}
+  .flash{position:fixed;inset:0;z-index:9;background:#fff;opacity:0;pointer-events:none;}
+  .flash.go{animation:flashAnim .5s ease;}
+  @keyframes flashAnim{0%{opacity:.85}100%{opacity:0}}
+  .em{position:fixed;z-index:8;font-size:clamp(28px,6vw,54px);pointer-events:none;animation:rise 2.6s ease-out forwards;}
+  @keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:1}100%{transform:translateY(-92vh) rotate(38deg);opacity:0}}
+
+  .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:48px 22px;}
+  .card{width:100%;max-width:640px;text-align:center;transition:opacity .45s ease;}
+
+  .emblem{width:54px;height:54px;margin:0 auto 18px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, var(--radiance), var(--gold) 45%, transparent 72%);
+    box-shadow:0 0 40px rgba(255,222,138,.45);transition:all .6s ease;}
+  .emblem.stage-river{background:radial-gradient(ellipse 70% 36% at 50% 50%, var(--gold-bright), rgba(242,194,90,.4) 60%, transparent 80%);box-shadow:0 0 34px rgba(242,194,90,.4);}
+  .emblem.stage-turning{background:radial-gradient(circle at 50% 50%, transparent 38%, var(--gold) 46%, transparent 64%);box-shadow:0 0 38px rgba(242,194,90,.5);}
+  .emblem.stage-rose{background:
+      radial-gradient(circle at 50% 50%, var(--radiance) 8%, transparent 12%),
+      radial-gradient(circle at 50% 50%, transparent 28%, rgba(255,222,138,.7) 34%, transparent 44%),
+      radial-gradient(circle at 50% 50%, transparent 52%, rgba(255,222,138,.5) 58%, transparent 70%);
+    box-shadow:0 0 44px rgba(255,222,138,.55);}
+  .emblem.stage-point{width:30px;height:30px;background:radial-gradient(circle,var(--radiance),var(--gold-bright) 55%,transparent 78%);box-shadow:0 0 60px rgba(255,247,226,.8);}
+  .emblem.stage-dim{background:radial-gradient(circle,#3a3f63,transparent 70%);box-shadow:none;opacity:.6;}
+
+  .speaker{font-family:var(--body);text-transform:uppercase;letter-spacing:.32em;font-size:.7rem;color:var(--gold);opacity:.85;margin-bottom:14px;}
+  .scene{font-family:var(--body);font-size:clamp(1.05rem,2.3vw,1.22rem);color:var(--ivory);max-width:48ch;margin:0 auto;}
+  .scene em{color:var(--gold-bright);font-style:italic;}
+  .persian{font-family:var(--persian);direction:rtl;color:var(--gold-bright);font-size:clamp(1.2rem,3.1vw,1.7rem);line-height:2;margin:20px auto 4px;text-shadow:0 0 20px rgba(255,222,138,.2);}
+  .prompt{font-family:var(--display);font-size:clamp(1.15rem,2.6vw,1.45rem);color:var(--radiance);margin:24px 0 18px;}
+
+  .choices{display:flex;flex-direction:column;gap:12px;max-width:520px;margin:0 auto;}
+  .choice{font-family:var(--body);font-size:1.02rem;line-height:1.5;color:var(--ivory);text-align:left;
+    background:rgba(34,53,126,.28);border:1px solid var(--lapis-line);border-radius:4px;
+    padding:14px 18px 14px 44px;position:relative;cursor:pointer;
+    transition:background .2s ease,border-color .2s ease,transform .12s ease;}
+  .choice:hover{background:rgba(34,53,126,.5);border-color:var(--gold);transform:translateY(-1px);}
+  .choice:focus-visible{outline:2px solid var(--gold-bright);outline-offset:2px;}
+  .choice .num{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:.85rem;opacity:.8;}
+
+  .ending-title{font-family:var(--display);font-weight:600;font-size:clamp(2rem,6vw,3.2rem);line-height:1.08;margin:.2rem 0 .6rem;color:var(--radiance);text-shadow:0 0 30px rgba(255,222,138,.3);}
+  .ending-title.weird{color:#c8cdf2;text-shadow:0 0 28px rgba(120,128,210,.4);}
+  .ending-title.alt{color:var(--gold-bright);}
+  .ending-title.funny{color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.5);}
+  .ending-text{font-size:clamp(1.05rem,2.4vw,1.22rem);color:var(--ivory);max-width:50ch;margin:0 auto;}
+  .tag{margin-top:18px;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(239,231,211,.6);}
+
+  .btn{font-family:var(--body);font-size:.95rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);
+    background:linear-gradient(var(--gold-bright),var(--gold));border:none;padding:.8rem 1.9rem;border-radius:3px;cursor:pointer;margin-top:24px;box-shadow:0 0 24px rgba(255,222,138,.32);}
+  .btn:hover{filter:brightness(1.08);}
+  .btn:focus-visible{outline:2px solid var(--radiance);outline-offset:3px;}
+  .about{margin-top:22px;font-size:.76rem;color:rgba(239,231,211,.55);letter-spacing:.03em;}
+  .about a{color:var(--gold-bright);text-decoration:none;border-bottom:1px solid rgba(255,227,154,.4);}
+
+  .lede{font-family:var(--body);font-style:italic;font-size:clamp(1.05rem,2.4vw,1.24rem);color:rgba(239,231,211,.9);max-width:48ch;margin:.8rem auto 0;}
+  .display{font-family:var(--display);font-weight:600;color:var(--radiance);font-size:clamp(2.4rem,7vw,4.2rem);line-height:1.04;margin:.1rem 0;text-shadow:0 0 34px rgba(255,222,138,.3);}
+  @media (prefers-reduced-motion: reduce){ .card,.emblem{transition:none;} body.fx-fire,body.fx-meme{animation:none;} .em,.flash.go{animation:none;opacity:0;} .wob{animation:none;} }
+</style>
+</head>
+<body>
+  <div class="dust"></div>
+  <div class="frame"></div>
+  <div class="flash" id="flash"></div>
+  <div class="wrap">
+    <main class="card" id="card" role="main" aria-live="polite"></main>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+  var reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var INTRO={
+    title:"The River of Light",
+    eyebrow:"Dante \u00b7 Paradiso \u00b7 Canto XXX",
+    lede:"You are Dante. You have risen past the last sphere into the Empyrean, the heaven of pure light, with Beatrice beside you. To climb higher you must choose what to say and how to see. Choose well \u2014 the wrong line can turn the vision strange, or send the whole thing off the rails.",
+    button:"Enter the light"
+  };
+
+  var NODES={
+    scene1:{stage:"ascend",speaker:"Beatrice",
+      text:"Beatrice turns to you, and her smile is brighter than any star you have ever seen. The light pours over you, almost too much to bear.",
+      prompt:"What do you do?",
+      choices:[
+        {t:"\u201CLet me look away \u2014 it is too bright.\u201D",to:"end_turn"},
+        {t:"\u201CLet me put your beauty into words.\u201D",to:"end_words"},
+        {t:"\u201CCan I get a selfie with you, Beatrice?\u201D",to:"end_meme"},
+        {t:"I say nothing, and simply rise with her.",to:"scene2"}
+      ]},
+    scene2:{stage:"river",speaker:"Beatrice",
+      text:"Below you a river of living light flows between two banks of flowers, and sparks rise from it like rubies thrown into gold. \u201CThese sparks, these flowers,\u201D she says, \u201Care only shadows of the truth. To see what is real, you must drink.\u201D",
+      persian:"به جویی رسید از فروغ و ز نور<br>که موجش همه اختر و لعل و حور",
+      prompt:"How do you drink from the river of light?",
+      choices:[
+        {t:"\u201CI cup it in my hands and drink.\u201D",to:"end_hands"},
+        {t:"\u201CIt is only a river. I will not be fooled.\u201D",to:"end_refuse"},
+        {t:"\u201CWait \u2014 is this the Styx? Wrong poem.\u201D",to:"end_hell"},
+        {t:"I bend down and drink with my eyes.",to:"scene3"}
+      ]},
+    scene3:{stage:"turning",speaker:"Beatrice",
+      text:"You drink with your eyes, and something behind them changes. The long river bends, curls at its ends, and closes into a circle of light that begins to rise and open. \u201CNow your sight is strong enough,\u201D she says. \u201CThe river was never a river.\u201D",
+      persian:"شد آن جوی گردان، گلی از فروغ<br>گلی کش نه برگ و نه بو، جز فروغ",
+      prompt:"What is it becoming?",
+      choices:[
+        {t:"\u201CA whirlpool, pulling me down.\u201D",to:"end_vortex"},
+        {t:"\u201CNothing.\u201D I close my eyes.",to:"end_shut"},
+        {t:"\u201CA hot tub.\u201D I cannonball in.",to:"end_meme"},
+        {t:"\u201CA rose. It is opening.\u201D",to:"scene4"}
+      ]},
+    scene4:{stage:"rose",speaker:"Beatrice",
+      text:"The circle opens into an immense rose of light: tier upon tier of the blessed, rank on rank of glowing souls, all turned toward a center you cannot yet make out. \u201CThese are the souls who fill the eternal rose,\u201D she says. \u201CBut do not stop at them.\u201D",
+      prompt:"Where do you turn your gaze?",
+      choices:[
+        {t:"To the faces of the blessed, looking for someone I loved.",to:"end_souls"},
+        {t:"To Beatrice. I cannot look away from her.",to:"end_beatrice"},
+        {t:"I moon the entire heavenly host.",to:"end_moon"},
+        {t:"To the point of light at the very center.",to:"end_true"}
+      ]},
+
+    end_turn:{stage:"dim",ending:"weird",title:"You turned from the light",
+      text:"You shut the brightness out, and the brightness obliges. The Empyrean folds away like a closing eye, and you are sitting in the dark of the lower spheres again, unsure if any of it was real."},
+    end_words:{stage:"dim",ending:"weird",title:"The poet who tried to say it",
+      text:"You reach for words, but each one cools and falls like a cinder. The more you describe her, the dimmer she grows, until you are alone in a gray quiet, holding a poem about a light you can no longer see."},
+    end_hands:{stage:"dim",ending:"weird",title:"What hands cannot hold",
+      text:"You plunge your hands into the river. It is not water. The sparks scatter from your fingers like startled bees, the flowers wilt to paper, and the light runs out between your hands into nothing. Some things only the eyes can drink."},
+    end_refuse:{stage:"dim",ending:"weird",title:"You called it an illusion",
+      text:"You fold your arms and refuse. The river does not argue. It simply stops glowing, and you are left at the edge of a dark canal on the rim of heaven, having named the truth a trick."},
+    end_vortex:{stage:"dim",ending:"weird",title:"Fear is what took you",
+      text:"You see a whirlpool, and so a whirlpool it becomes. The ring of light spins faster, tilts, and drinks you down through its center into a long fall \u2014 because at the gate of heaven you chose to see a drain."},
+    end_shut:{stage:"dim",ending:"weird",title:"Eyes shut at the threshold",
+      text:"You close your eyes one step from the rose. When you open them, the light is gone and Beatrice is gone, and you cannot remember which way is up."},
+
+    end_souls:{stage:"rose",ending:"alt",title:"Among the souls",
+      text:"You search the tiers and, impossibly, find a face you loved on earth. You stay there, in that ring of the rose, content among the blessed. It is a kind of heaven. It is not the whole of it."},
+    end_beatrice:{stage:"rose",ending:"alt",title:"Only your guide",
+      text:"You keep your eyes on Beatrice, and she smiles, but sadly. \u201CThere is more than me to see,\u201D she says, and takes her place among the souls, and you understand you spent your one clear moment looking at the guide instead of the road."},
+
+    end_meme:{stage:"rose",ending:"funny",fx:"meme",title:"You broke Paradise",
+      text:"You break the fourth wall of heaven. Beatrice stares into the middle distance. A caption no manuscript ever carried scrolls across the Empyrean, the blessed rate your ascent a 7 out of 10, and you are, from this moment on, content."},
+    end_hell:{stage:"dim",ending:"funny",fx:"fire",title:"Wrong poem.",
+      text:"You mix up your rivers, and the floor of heaven simply opens. Down you go, past the famous sign on the gate, into the smoke and heat of the wrong canticle entirely. Beatrice sighs, from very far above."},
+    end_moon:{stage:"point",ending:"funny",fx:"moon",title:"Kicked to the Moon",
+      text:"A figure robed in light steps forward, winds up like a striker taking a free kick, and boots you clean out of the Empyrean. You land softly in a crater on the Moon \u2014 which Dante visited back in Canto II, so technically you are still on theme."},
+
+    end_true:{stage:"point",ending:"true",fx:"sparkle",title:"The point of light",
+      persian:"میانش یکی نقطه، تابان‌تر از مهر<br>فرشته به گردش، چو پروانه، سپهر",
+      text:"You look to the center. A single point, brighter than the sun, and around it the angels wheel like moths around a flame. For one moment you understand the love that moves the sun and the other stars \u2014 and then, gently, the moment lets you go."}
+  };
+
+  var card=document.getElementById('card');
+  var flashEl=document.getElementById('flash');
+  var current=null;
+
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+  function fadeIn(){card.style.opacity='0';requestAnimationFrame(function(){requestAnimationFrame(function(){card.style.opacity='1';});});}
+
+  var FX={
+    fire:{cls:'fx-fire',shake:true,em:['\uD83D\uDD25','\uD83D\uDE08','\uD83D\uDD25','\uD83D\uDD25','\uD83D\uDE08']},
+    moon:{cls:'fx-moon',shake:false,em:['\uD83C\uDF19','\uD83D\uDC5F','\u2B50','\u2728','\uD83C\uDF19']},
+    meme:{cls:'fx-meme',shake:false,em:['\uD83D\uDE07','\uD83D\uDC80','\uD83D\uDD25','\uD83D\uDE02','\uD83D\uDC4C','\uD83E\uDD23']},
+    sparkle:{cls:null,shake:false,em:['\u2728','\u2728','\u2B50','\u2728','\u2728']}
+  };
+  function setFx(name){
+    document.body.classList.remove('fx-fire','fx-moon','fx-meme');
+    if(!name) return;
+    var f=FX[name]; if(!f) return;
+    if(f.cls) document.body.classList.add(f.cls);
+    if(reduced) return; // respect reduced motion: keep static bg, skip flash/shake/emoji
+    flashEl.classList.remove('go'); void flashEl.offsetWidth; flashEl.classList.add('go');
+    if(f.shake){ card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake'); }
+    spawnEmoji(f.em);
+  }
+  function spawnEmoji(list){
+    for(var i=0;i<list.length;i++){
+      (function(ch,idx){
+        setTimeout(function(){
+          var s=el('span','em',ch);
+          s.style.left=(8+Math.random()*84)+'vw';
+          s.style.bottom=(-30+Math.random()*40)+'px';
+          document.body.appendChild(s);
+          setTimeout(function(){ if(s.parentNode) s.parentNode.removeChild(s); },2700);
+        }, idx*90);
+      })(list[i],i);
+    }
+  }
+  // shake keyframe via JS-added style
+  var st=document.createElement('style');
+  st.textContent='.card.shake{animation:shk .5s}@keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(4px)}}';
+  document.head.appendChild(st);
+
+  function showIntro(){
+    current=null; setFx(null); card.innerHTML='';
+    card.appendChild(el('div','emblem stage-ascend'));
+    card.appendChild(el('div','speaker',INTRO.eyebrow));
+    card.appendChild(el('h1','display',INTRO.title));
+    card.appendChild(el('p','lede',INTRO.lede));
+    var b=el('button','btn',INTRO.button);
+    b.addEventListener('click',function(){go('scene1');});
+    card.appendChild(b); fadeIn(); b.focus();
+  }
+
+  function go(id){
+    var n=NODES[id]; if(!n) return;
+    current=id; setFx(n.fx||null); card.innerHTML='';
+    card.appendChild(el('div','emblem stage-'+(n.stage||'ascend')));
+
+    if(n.ending){
+      var lead = n.ending==='true' ? 'The vision opens' : (n.ending==='alt' ? 'An ending' : (n.ending==='funny' ? 'Well, that happened' : 'The vision turns strange'));
+      card.appendChild(el('div','speaker',lead));
+      card.appendChild(el('h1','ending-title '+n.ending,n.title));
+      if(n.persian) card.appendChild(el('p','persian',n.persian));
+      card.appendChild(el('p','ending-text',n.text));
+      var tag = n.ending==='true' ? 'You reached the center \u00b7 the true ending'
+        : (n.ending==='alt' ? 'An alternate ending \u00b7 try again to reach the center'
+        : (n.ending==='funny' ? 'Not exactly canon \u00b7 try again' : 'A wrong line turned the vision \u00b7 try again'));
+      card.appendChild(el('div','tag',tag));
+      var rb=el('button','btn', n.ending==='true' ? 'Begin again' : 'Try a different way');
+      rb.addEventListener('click',function(){go('scene1');});
+      card.appendChild(rb);
+      if(n.ending==='true'){
+        card.appendChild(el('p','about','An interactive adaptation of Dante\u2019s <em>Paradiso</em> XXX &nbsp;\u00b7&nbsp; <a href="https://github.com/aryamehr2k/paradiso-shahnameh" target="_blank" rel="noopener">github.com/aryamehr2k/paradiso-shahnameh</a><br>[ your name ] \u00b7 [ course ]'));
+      }
+      fadeIn(); rb.focus(); return;
+    }
+
+    if(n.speaker) card.appendChild(el('div','speaker',n.speaker));
+    card.appendChild(el('p','scene',n.text));
+    if(n.persian) card.appendChild(el('p','persian',n.persian));
+    if(n.prompt) card.appendChild(el('p','prompt',n.prompt));
+    var box=el('div','choices');
+    n.choices.forEach(function(c,i){
+      var btn=el('button','choice','<span class="num">'+(i+1)+'</span>'+c.t);
+      btn.addEventListener('click',function(){go(c.to);});
+      box.appendChild(btn);
+    });
+    card.appendChild(box); fadeIn();
+  }
+
+  window.addEventListener('keydown',function(e){
+    if(!current) return;
+    var n=NODES[current]; if(!n||!n.choices) return;
+    var k=parseInt(e.key,10);
+    if(k>=1 && k<=n.choices.length) go(n.choices[k-1].to);
+  });
+
+  showIntro();
+})();
+</script>
+</body>
+</html>
