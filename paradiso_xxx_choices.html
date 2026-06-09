@@ -45,12 +45,18 @@
   #mini{position:absolute;inset:0;width:100%;height:100%;display:block;}
 
   /* the only words: a Persian couplet, fading in like an inscription */
-  .verse{position:absolute;left:0;right:0;bottom:30px;z-index:3;pointer-events:none;text-align:center;
+  /* the couplet sits in its own inscribed panel, clear of the figures below */
+  .verse{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);z-index:3;pointer-events:none;
+    width:80%;max-width:380px;text-align:center;
     font-family:var(--persian);direction:rtl;color:var(--gold-bright);
-    font-size:clamp(.95rem,2.6vw,1.35rem);line-height:2;
-    text-shadow:0 0 18px rgba(0,0,0,.7),0 0 24px rgba(255,222,138,.25);
-    opacity:0;transition:opacity 1.4s ease;padding:0 6%;}
-  .verse.show{opacity:.96;}
+    font-size:clamp(.9rem,2.5vw,1.28rem);line-height:1.95;
+    background:linear-gradient(180deg,rgba(13,18,48,.68),rgba(13,18,48,.84));
+    border:1px solid rgba(242,194,90,.5);border-radius:6px;
+    box-shadow:0 0 0 1px rgba(23,36,86,.5),0 8px 26px rgba(0,0,0,.5);
+    padding:9px 16px 10px;
+    text-shadow:0 0 14px rgba(0,0,0,.65);
+    opacity:0;transition:opacity 1.2s ease;}
+  .verse.show{opacity:1;}
 
   /* progress: four small gold marks */
   .beads{position:absolute;left:0;right:0;top:16px;z-index:3;pointer-events:none;
@@ -60,8 +66,8 @@
   .bead.on{background:var(--gold-bright);box-shadow:0 0 12px rgba(255,222,138,.9);}
 
   /* a wordless cue to interact */
-  .cue{position:absolute;left:0;right:0;bottom:64px;z-index:3;pointer-events:none;text-align:center;
-    color:var(--gold-bright);opacity:.85;font-size:26px;transition:opacity .6s ease;}
+  .cue{position:absolute;left:0;right:0;bottom:14px;z-index:3;pointer-events:none;text-align:center;
+    color:var(--gold-bright);opacity:.85;font-size:24px;transition:opacity .6s ease;}
   .cue.hide{opacity:0;}
   @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-7px);opacity:1}}
   .cue span{display:inline-block;animation:bob 1.8s ease-in-out infinite;}
@@ -209,8 +215,8 @@
 
     // ---- the two figures, always present ----
     var fig=s('g',{});
-    figure(fig,150,540,'#22357e','#ffe39a');   // Beatrice
-    figure(fig,250,540,'#b1303a','#3a2e18');    // Dante (the pilgrim)
+    figure(fig,52,512,'#22357e','#ffe39a');    // Beatrice — attending at the lower-left, gazing up
+    figure(fig,348,512,'#b1303a','#3a2e18');   // Dante the pilgrim — lower-right
     mini.appendChild(fig); L.figures=fig;
 
     // ---- living sparks that follow the cursor (the rubies of the river) ----
