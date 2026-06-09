@@ -10,15 +10,22 @@ idiom of **Persian miniature painting**, the *Shahnameh* manuscript tradition.
 
 The story stays Dante. The picture becomes a Safavid folio.
 
-## Play it
+## Play it — *Speak with Beatrice*
 
-An interactive, almost wordless visual adaptation of *Paradiso* XXX: tap (or press
-space) to let the vision **paint itself as a Safavid folio** — a river of light
-that coils into a ring, blooms into the Celestial Rose, and condenses to a single
-point with the angels wheeling around it. The living sparks gather toward your
-cursor, and the three beats are inscribed with Persian couplets in the *Shahnameh*
-metre. **Play it live:**
+An interactive adaptation of *Paradiso* XXX where you stand in **Dante's** shoes and
+talk, in your own words, to an **AI playing Beatrice**. She answers in character and
+guides you through the vision — and what you say steers it: the illuminated Safavid
+folio **paints itself** beat by beat (a river of light → a ring → the Celestial Rose →
+the point of light with the angels wheeling) as your sight grows strong enough, and
+**dims if you turn away**. **Play it live:**
 [aryamehr2k.github.io/paradiso-shahnameh](https://aryamehr2k.github.io/paradiso-shahnameh/)
+
+Beatrice is driven by the **Claude API** (model `claude-opus-4-8`), called from the
+browser with structured output that controls the visualization. Because the site is
+static, it's **bring-your-own-key**: click ⚙ and paste your own
+[Anthropic API key](https://console.anthropic.com/settings/keys) — it's stored only in
+your browser (localStorage) and sent directly to Anthropic, never committed. Without a
+key, a short scripted version still plays.
 
 We do it by training a small **style LoRA** on public-domain Persian-miniature
 folios, then prompting **FLUX.1-dev** with the three beats of Canto XXX — the

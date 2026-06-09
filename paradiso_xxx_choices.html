@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Paradiso XXX — the folio that paints itself</title>
+<title>Speak with Beatrice — Paradiso XXX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500;600&display=swap" rel="stylesheet">
@@ -13,14 +13,15 @@
     --lapis:#22357e;--lapis-deep:#172456;
     --turq:#2f8f86;--gold:#f2c25a;--gold-bright:#ffe39a;--gold-deep:#c8922f;
     --radiance:#fff7e2;--blush:#e2a3b0;--crimson:#b1303a;--ivory:#efe7d3;
-    --persian:"Vazirmatn","Noto Naskh Arabic","Scheherazade New","Geeza Pro",Tahoma,serif;
+    --persian:"Vazirmatn","Noto Naskh Arabic","Geeza Pro",Tahoma,serif;
+    --display:"Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
     --body:Georgia,"Iowan Old Style","Times New Roman",serif;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;height:100%;}
+  html,body{margin:0;padding:0;min-height:100%;}
   body{
     background:radial-gradient(120% 100% at 50% -10%, #1d2350 0%, var(--ink2) 46%, var(--ink) 100%) fixed;
-    color:var(--ivory);font-family:var(--body);overflow:hidden;-webkit-font-smoothing:antialiased;
+    color:var(--ivory);font-family:var(--body);-webkit-font-smoothing:antialiased;
   }
   .dust{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;
     background-image:
@@ -30,68 +31,112 @@
       radial-gradient(1.5px 1.5px at 88% 58%, rgba(255,231,160,.5), transparent),
       radial-gradient(1px 1px at 10% 80%, rgba(200,210,240,.5), transparent);}
 
-  .wrap{position:relative;z-index:2;height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+  .wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:30px 16px 60px;}
+  .stage{width:100%;max-width:560px;}
 
-  /* the folio — a Safavid manuscript page in nested gold/lapis/turquoise rulings */
-  .folio{
-    position:relative;height:min(92vh,820px);aspect-ratio:400/560;max-width:96vw;
+  /* the folio (the vision) */
+  .folio{position:relative;aspect-ratio:400/470;width:100%;
     border:2px solid var(--gold-deep);
-    box-shadow:
-      0 0 0 3px var(--lapis-deep), 0 0 0 5px var(--gold),
-      0 0 0 7px var(--turq), 0 0 0 9px var(--gold-deep),
-      0 26px 70px rgba(0,0,0,.6), 0 0 100px rgba(255,222,138,.12);
-    cursor:pointer;user-select:none;background:#0c1230;overflow:hidden;border-radius:2px;
-  }
+    box-shadow:0 0 0 3px var(--lapis-deep),0 0 0 5px var(--gold),0 0 0 7px var(--turq),
+      0 0 0 9px var(--gold-deep),0 22px 60px rgba(0,0,0,.6),0 0 90px rgba(255,222,138,.12);
+    background:#0c1230;overflow:hidden;border-radius:2px;}
   #mini{position:absolute;inset:0;width:100%;height:100%;display:block;}
-
-  /* the only words: a Persian couplet, fading in like an inscription */
-  /* the couplet sits in its own inscribed panel, clear of the figures below */
-  .verse{position:absolute;left:50%;bottom:44px;transform:translateX(-50%);z-index:3;pointer-events:none;
-    width:80%;max-width:380px;text-align:center;
-    font-family:var(--persian);direction:rtl;color:var(--gold-bright);
-    font-size:clamp(.9rem,2.5vw,1.28rem);line-height:1.95;
-    background:linear-gradient(180deg,rgba(13,18,48,.68),rgba(13,18,48,.84));
-    border:1px solid rgba(242,194,90,.5);border-radius:6px;
-    box-shadow:0 0 0 1px rgba(23,36,86,.5),0 8px 26px rgba(0,0,0,.5);
-    padding:9px 16px 10px;
-    text-shadow:0 0 14px rgba(0,0,0,.65);
-    opacity:0;transition:opacity 1.2s ease;}
-  .verse.show{opacity:1;}
-
-  /* progress: four small gold marks */
-  .beads{position:absolute;left:0;right:0;top:16px;z-index:3;pointer-events:none;
-    display:flex;gap:9px;justify-content:center;}
-  .bead{width:7px;height:7px;border-radius:50%;background:rgba(255,231,160,.22);
-    box-shadow:0 0 0 1px rgba(200,146,47,.5);transition:background .5s ease,box-shadow .5s ease;}
+  .mini-frame{position:absolute;inset:0;transition:filter 1s ease;}
+  .mini-frame.faltered #mini{filter:grayscale(.85) brightness(.5);}
+  .caption{position:absolute;left:0;right:0;top:14px;z-index:3;text-align:center;pointer-events:none;
+    text-transform:uppercase;letter-spacing:.34em;font-size:.6rem;color:var(--gold-bright);opacity:.7;}
+  .beads{position:absolute;left:0;right:0;top:30px;z-index:3;display:flex;gap:8px;justify-content:center;pointer-events:none;}
+  .bead{width:6px;height:6px;border-radius:50%;background:rgba(255,231,160,.22);box-shadow:0 0 0 1px rgba(200,146,47,.5);
+    transition:background .5s,box-shadow .5s;}
   .bead.on{background:var(--gold-bright);box-shadow:0 0 12px rgba(255,222,138,.9);}
+  .gear{position:absolute;top:12px;right:12px;z-index:5;cursor:pointer;border:none;background:rgba(13,18,48,.6);
+    color:var(--gold-bright);border:1px solid var(--gold-deep);border-radius:50%;width:30px;height:30px;font-size:15px;line-height:1;}
+  .gear:hover{background:rgba(34,53,126,.7);}
 
-  /* a wordless cue to interact */
-  .cue{position:absolute;left:0;right:0;bottom:14px;z-index:3;pointer-events:none;text-align:center;
-    color:var(--gold-bright);opacity:.85;font-size:24px;transition:opacity .6s ease;}
-  .cue.hide{opacity:0;}
-  @keyframes bob{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-7px);opacity:1}}
-  .cue span{display:inline-block;animation:bob 1.8s ease-in-out infinite;}
+  /* dialogue */
+  .speech{margin:16px auto 0;max-width:520px;text-align:center;min-height:2.2em;}
+  .speaker{font-family:var(--body);text-transform:uppercase;letter-spacing:.28em;font-size:.66rem;color:var(--gold);opacity:.85;margin-bottom:8px;}
+  .speech .line{font-family:var(--display);font-size:clamp(1.05rem,2.6vw,1.35rem);color:var(--radiance);line-height:1.5;
+    transition:opacity .6s ease;text-shadow:0 0 18px rgba(255,222,138,.18);}
+  .speech.thinking .line{opacity:.5;font-style:italic;color:var(--gold-bright);}
+  .dante-echo{margin:12px auto 0;max-width:520px;text-align:center;font-style:italic;color:rgba(239,231,211,.62);font-size:.95rem;min-height:1.2em;}
 
-  /* a barely-there caption, the title only */
-  .caption{position:absolute;left:0;right:0;top:30px;z-index:3;pointer-events:none;text-align:center;
-    text-transform:uppercase;letter-spacing:.36em;font-size:.62rem;color:var(--gold-bright);opacity:.65;}
+  .composer{display:flex;gap:8px;max-width:520px;margin:18px auto 0;}
+  .composer input{flex:1;font-family:var(--body);font-size:1rem;padding:.7rem .9rem;border:1px solid var(--gold-deep);
+    border-radius:4px;background:rgba(12,18,48,.55);color:var(--ivory);}
+  .composer input::placeholder{color:rgba(239,231,211,.45);}
+  .composer input:focus{outline:2px solid var(--gold);outline-offset:1px;}
+  .composer button{font-family:var(--body);letter-spacing:.14em;text-transform:uppercase;font-size:.82rem;color:var(--ink);
+    background:linear-gradient(var(--gold-bright),var(--gold));border:1px solid var(--gold-deep);border-radius:4px;padding:0 1.2rem;cursor:pointer;}
+  .composer button:hover{filter:brightness(1.06);}
+  .composer button:disabled{opacity:.5;cursor:default;filter:none;}
 
-  @media (prefers-reduced-motion: reduce){
-    #mini *{animation:none !important;}
-    .cue span{animation:none;}
-  }
+  .status{max-width:520px;margin:12px auto 0;text-align:center;font-size:.82rem;color:var(--blush);min-height:1.1em;}
+  .status a{color:var(--gold-bright);}
+  .restart{display:block;margin:16px auto 0;font-family:var(--body);letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;
+    color:var(--lapis-deep);background:transparent;border:1px solid var(--gold-deep);border-radius:3px;padding:.5rem 1.2rem;cursor:pointer;color:var(--gold-bright);}
+
+  /* settings panel */
+  .veil{position:fixed;inset:0;z-index:20;background:rgba(6,8,20,.78);display:none;align-items:center;justify-content:center;padding:20px;}
+  .veil.show{display:flex;}
+  .panel{width:100%;max-width:480px;background:linear-gradient(180deg,#fbf3dd,#ecdcb4);color:#241c33;border:1px solid var(--gold-deep);
+    border-radius:6px;box-shadow:0 0 0 4px var(--lapis-deep),0 24px 60px rgba(0,0,0,.6);padding:22px;font-size:.92rem;line-height:1.55;}
+  .panel h2{font-family:var(--display);margin:.1rem 0 .6rem;color:var(--lapis-deep);}
+  .panel label{display:block;font-weight:bold;margin:14px 0 5px;font-size:.85rem;}
+  .panel input,.panel select{width:100%;font-family:var(--body);font-size:.95rem;padding:.55rem .7rem;border:1px solid var(--gold-deep);
+    border-radius:4px;background:#fffdf6;color:#241c33;}
+  .panel .warn{background:#fff3da;border:1px solid var(--gold-deep);border-radius:4px;padding:10px 12px;margin-top:14px;font-size:.82rem;color:#5a3d12;}
+  .panel .row{display:flex;gap:8px;margin-top:16px;}
+  .panel .row button{flex:1;font-family:var(--body);letter-spacing:.12em;text-transform:uppercase;font-size:.82rem;cursor:pointer;
+    padding:.6rem;border-radius:4px;border:1px solid var(--gold-deep);}
+  .panel .save{background:linear-gradient(var(--gold-bright),var(--gold));color:var(--ink);}
+  .panel .close{background:transparent;color:var(--lapis-deep);}
+  .panel a{color:var(--gold-deep);}
+  .panel .muted{font-size:.78rem;color:#6a5a3a;margin-top:12px;}
 </style>
 </head>
 <body>
   <div class="dust"></div>
   <div class="wrap">
-    <div class="folio" id="folio" role="application"
-         aria-label="An interactive illuminated folio of Dante's Paradiso, Canto XXX. Tap, or press space, to let the vision unfold: a river of light, a ring, a rose, a point of light.">
-      <svg id="mini" viewBox="0 0 400 560" aria-hidden="true"></svg>
-      <div class="caption">Paradiso · XXX</div>
-      <div class="beads" id="beads"></div>
-      <div class="verse" id="verse"></div>
-      <div class="cue" id="cue"><span>›</span></div>
+    <div class="stage">
+      <div class="folio">
+        <div class="mini-frame" id="miniFrame"><svg id="mini" viewBox="0 0 400 470" aria-hidden="true"></svg></div>
+        <div class="caption">Paradiso · XXX · the Empyrean</div>
+        <div class="beads" id="beads"></div>
+        <button class="gear" id="gear" title="API key &amp; settings" aria-label="settings">⚙</button>
+      </div>
+
+      <div class="speech" id="speech"><div class="speaker">Beatrice</div><div class="line" id="line"></div></div>
+      <div class="dante-echo" id="echo"></div>
+
+      <form class="composer" id="composer">
+        <input id="input" type="text" autocomplete="off" placeholder="Answer Beatrice…" aria-label="your words as Dante">
+        <button id="send" type="submit">Speak</button>
+      </form>
+      <div class="status" id="status"></div>
+      <button class="restart" id="restart" style="display:none">Begin again</button>
+    </div>
+  </div>
+
+  <!-- settings -->
+  <div class="veil" id="veil">
+    <div class="panel">
+      <h2>Speak with Beatrice</h2>
+      <p>This piece talks to an AI that plays <em>Beatrice</em>, guiding you (Dante) through the vision of <em>Paradiso</em> XXX. To bring her to life it calls the <strong>Claude API</strong> from your browser, so it needs your own Anthropic API key.</p>
+      <label for="keyInput">Anthropic API key</label>
+      <input id="keyInput" type="password" placeholder="sk-ant-…" autocomplete="off">
+      <label for="modelInput">Model</label>
+      <select id="modelInput">
+        <option value="claude-opus-4-8">Claude Opus 4.8 (richest)</option>
+        <option value="claude-sonnet-4-6">Claude Sonnet 4.6 (faster / cheaper)</option>
+        <option value="claude-haiku-4-5">Claude Haiku 4.5 (cheapest)</option>
+      </select>
+      <div class="warn">⚠ Your key is stored <strong>only in this browser</strong> (localStorage) and sent directly to Anthropic — never to GitHub or anyone else. Because this is a static site, the key lives in your browser: use a personal key, not a shared/production one, and never commit it. Get a key at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.</div>
+      <div class="row">
+        <button class="save" id="saveKey">Save &amp; begin</button>
+        <button class="close" id="closeKey">Close</button>
+      </div>
+      <p class="muted">No key? You can still play a short scripted version — close this and speak to her.</p>
     </div>
   </div>
 
@@ -100,220 +145,269 @@
 (function(){
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var SVGNS='http://www.w3.org/2000/svg';
-  var mini=document.getElementById('mini');
-  var folio=document.getElementById('folio');
-  var verseEl=document.getElementById('verse');
-  var cueEl=document.getElementById('cue');
+  var mini=document.getElementById('mini'), miniFrame=document.getElementById('miniFrame');
   var beadsEl=document.getElementById('beads');
+  var CX=200, CY=210;
 
-  var CX=200, CY=250;
-  function s(tag,attrs){var e=document.createElementNS(SVGNS,tag);for(var k in attrs){if(attrs.hasOwnProperty(k))e.setAttribute(k,attrs[k]);}return e;}
+  function s(tag,a){var e=document.createElementNS(SVGNS,tag);for(var k in a){if(a.hasOwnProperty(k))e.setAttribute(k,a[k]);}return e;}
   function rnd(a,b){return a+Math.random()*(b-a);}
 
-  /* the three couplets — the only words, in the Shahnameh metre */
-  var VERSES=[
-    '',
-    'به جویی رسید از فروغ و ز نور<br>که موجش همه اختر و لعل و حور',
-    '',
-    'شد آن جوی گردان، گلی از فروغ<br>گلی کش نه برگ و نه بو، جز فروغ',
-    'میانش یکی نقطه، تابان‌تر از مهر<br>فرشته به گردش، چو پروانه، سپهر'
-  ];
-
-  /* progress beads (4 beats after the blank page) */
-  for(var i=0;i<4;i++){ beadsEl.appendChild(Object.assign(document.createElement('div'),{className:'bead'})); }
+  /* ---------- the vision (river -> ring -> rose -> point) ---------- */
+  var L={}, sparks=[];
+  for(var i=0;i<4;i++){var b=document.createElement('div');b.className='bead';beadsEl.appendChild(b);}
   var beads=beadsEl.children;
-
-  var L={}; var sparks=[];
 
   function build(){
     while(mini.firstChild) mini.removeChild(mini.firstChild);
     sparks=[];
-
     var defs=s('defs',{});
     defs.innerHTML=
-      '<radialGradient id="gGround" cx="50%" cy="42%" r="78%">'+
-        '<stop offset="0%" stop-color="#1a2a66"/><stop offset="55%" stop-color="#101a44"/><stop offset="100%" stop-color="#0a1030"/>'+
-      '</radialGradient>'+
-      '<linearGradient id="gRiver" x1="0" y1="0" x2="0" y2="1">'+
-        '<stop offset="0%" stop-color="#fff7e2"/><stop offset="50%" stop-color="#ffe39a"/><stop offset="100%" stop-color="#f2c25a"/>'+
-      '</linearGradient>'+
-      '<radialGradient id="gRose" cx="50%" cy="50%" r="50%">'+
-        '<stop offset="0%" stop-color="#fff7e2"/><stop offset="38%" stop-color="#ffe39a"/><stop offset="72%" stop-color="#f2c25a"/><stop offset="100%" stop-color="#e2a3b0"/>'+
-      '</radialGradient>'+
-      '<radialGradient id="gPoint" cx="50%" cy="50%" r="50%">'+
-        '<stop offset="0%" stop-color="#ffffff"/><stop offset="20%" stop-color="#fff7e2"/><stop offset="55%" stop-color="rgba(255,227,154,.5)"/><stop offset="100%" stop-color="rgba(255,227,154,0)"/>'+
-      '</radialGradient>'+
+      '<radialGradient id="gGround" cx="50%" cy="42%" r="80%"><stop offset="0%" stop-color="#1a2a66"/><stop offset="55%" stop-color="#101a44"/><stop offset="100%" stop-color="#0a1030"/></radialGradient>'+
+      '<linearGradient id="gRiver" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff7e2"/><stop offset="50%" stop-color="#ffe39a"/><stop offset="100%" stop-color="#f2c25a"/></linearGradient>'+
+      '<radialGradient id="gRose" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff7e2"/><stop offset="38%" stop-color="#ffe39a"/><stop offset="72%" stop-color="#f2c25a"/><stop offset="100%" stop-color="#e2a3b0"/></radialGradient>'+
+      '<radialGradient id="gPoint" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffffff"/><stop offset="20%" stop-color="#fff7e2"/><stop offset="55%" stop-color="rgba(255,227,154,.5)"/><stop offset="100%" stop-color="rgba(255,227,154,0)"/></radialGradient>'+
       '<filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.6"/></filter>';
     mini.appendChild(defs);
 
-    // ground + gold flecks
-    var g0=s('g',{});
-    g0.appendChild(s('rect',{x:0,y:0,width:400,height:560,fill:'url(#gGround)'}));
-    for(var f=0;f<54;f++){
-      g0.appendChild(s('circle',{cx:rnd(8,392).toFixed(1),cy:rnd(8,552).toFixed(1),
-        r:rnd(.5,1.7).toFixed(2),fill:'#ffe39a','fill-opacity':rnd(.1,.4).toFixed(2)}));
-    }
+    var g0=s('g',{}); g0.appendChild(s('rect',{x:0,y:0,width:400,height:470,fill:'url(#gGround)'}));
+    for(var f=0;f<48;f++) g0.appendChild(s('circle',{cx:rnd(8,392).toFixed(1),cy:rnd(8,462).toFixed(1),r:rnd(.5,1.7).toFixed(2),fill:'#ffe39a','fill-opacity':rnd(.1,.4).toFixed(2)}));
     mini.appendChild(g0);
 
-    // ---- layer: RIVER ----
+    // river
     var river=layer();
-    var riverD='M200,46 C150,108 250,168 200,234 S150,360 200,424 S250,512 200,546';
-    river.appendChild(s('path',{d:riverD,fill:'none',stroke:'url(#gRiver)','stroke-width':30,'stroke-linecap':'round',opacity:.9,filter:'url(#soft)'}));
-    river.appendChild(s('path',{d:riverD,fill:'none',stroke:'#fff7e2','stroke-width':9,'stroke-linecap':'round',opacity:.95}));
-    var bankCols=['#e2a3b0','#56c8bb','#9aa0e6','#ffe39a'];
-    for(var b=0;b<9;b++){
-      bloom(river, rnd(42,96), 80+b*52+rnd(-8,8), bankCols[b%4]);
-      bloom(river, rnd(304,358), 80+b*52+rnd(-8,8), bankCols[(b+2)%4]);
-    }
+    var d='M200,36 C150,92 250,140 200,196 S150,308 200,360 S250,440 200,460';
+    river.appendChild(s('path',{d:d,fill:'none',stroke:'url(#gRiver)','stroke-width':28,'stroke-linecap':'round',opacity:.9,filter:'url(#soft)'}));
+    river.appendChild(s('path',{d:d,fill:'none',stroke:'#fff7e2','stroke-width':8,'stroke-linecap':'round',opacity:.95}));
+    var cols=['#e2a3b0','#56c8bb','#9aa0e6','#ffe39a'];
+    for(var bk=0;bk<8;bk++){bloom(river,rnd(40,92),60+bk*52,cols[bk%4]);bloom(river,rnd(308,360),60+bk*52,cols[(bk+2)%4]);}
     mini.appendChild(river); L.river=river;
 
-    // ---- layer: RING ----
+    // ring
     var ring=layer();
-    ring.appendChild(s('circle',{cx:CX,cy:CY,r:120,fill:'none',stroke:'url(#gRiver)','stroke-width':26,opacity:.85,filter:'url(#soft)'}));
-    ring.appendChild(s('circle',{cx:CX,cy:CY,r:120,fill:'none',stroke:'#fff7e2','stroke-width':7,opacity:.95}));
+    ring.appendChild(s('circle',{cx:CX,cy:CY,r:108,fill:'none',stroke:'url(#gRiver)','stroke-width':24,opacity:.85,filter:'url(#soft)'}));
+    ring.appendChild(s('circle',{cx:CX,cy:CY,r:108,fill:'none',stroke:'#fff7e2','stroke-width':6,opacity:.95}));
     mini.appendChild(ring); L.ring=ring;
 
-    // ---- layer: ROSE ----
+    // rose
     var rose=layer();
-    var tiers=[{r:38,n:8,o:.95},{r:70,n:13,o:.85},{r:102,n:18,o:.72},{r:134,n:24,o:.56}];
-    for(var t=tiers.length-1;t>=0;t--){
-      var T=tiers[t],tg=s('g',{});
-      for(var p=0;p<T.n;p++){
-        tg.appendChild(s('ellipse',{cx:CX,cy:CY-T.r,rx:(T.r*0.30).toFixed(1),ry:(T.r*0.5).toFixed(1),
-          fill:'url(#gRose)','fill-opacity':T.o,stroke:'#c8922f','stroke-width':.4,
-          transform:'rotate('+((360/T.n)*p).toFixed(1)+' '+CX+' '+CY+')'}));
-      }
-      if(!reduced){ tg.appendChild(rot(CX,CY, t%2?70:-58)); }
-      rose.appendChild(tg);
-    }
-    rose.appendChild(s('circle',{cx:CX,cy:CY,r:20,fill:'url(#gPoint)'}));
+    var tiers=[{r:34,n:8,o:.95},{r:62,n:13,o:.85},{r:90,n:18,o:.72},{r:118,n:24,o:.56}];
+    for(var t=tiers.length-1;t>=0;t--){var T=tiers[t],tg=s('g',{});
+      for(var p=0;p<T.n;p++) tg.appendChild(s('ellipse',{cx:CX,cy:CY-T.r,rx:(T.r*0.30).toFixed(1),ry:(T.r*0.5).toFixed(1),fill:'url(#gRose)','fill-opacity':T.o,stroke:'#c8922f','stroke-width':.4,transform:'rotate('+((360/T.n)*p).toFixed(1)+' '+CX+' '+CY+')'}));
+      if(!reduced) tg.appendChild(rot(CX,CY,t%2?70:-58));
+      rose.appendChild(tg);}
+    rose.appendChild(s('circle',{cx:CX,cy:CY,r:18,fill:'url(#gPoint)'}));
     mini.appendChild(rose); L.rose=rose;
 
-    // ---- layer: POINT ----
+    // point
     var point=layer();
-    point.appendChild(s('circle',{cx:CX,cy:CY,r:140,fill:'url(#gPoint)','fill-opacity':.9}));
+    point.appendChild(s('circle',{cx:CX,cy:CY,r:124,fill:'url(#gPoint)','fill-opacity':.9}));
     var rays=s('g',{});
-    for(var ry=0;ry<24;ry++){
-      rays.appendChild(s('line',{x1:CX,y1:CY,x2:CX,y2:CY-170,stroke:'#fff7e2','stroke-width':.8,'stroke-opacity':.5,
-        transform:'rotate('+(ry*15)+' '+CX+' '+CY+')'}));
-    }
+    for(var ry=0;ry<24;ry++) rays.appendChild(s('line',{x1:CX,y1:CY,x2:CX,y2:CY-150,stroke:'#fff7e2','stroke-width':.8,'stroke-opacity':.5,transform:'rotate('+(ry*15)+' '+CX+' '+CY+')'}));
     if(!reduced) rays.appendChild(rot(CX,CY,46));
     point.appendChild(rays);
-    var angels=s('g',{});
-    for(var an=0;an<11;an++){
-      var aa=(360/11)*an, rr=60+(an%2?16:0);
-      var ax=CX+rr*Math.cos(aa*Math.PI/180), ay=CY+rr*Math.sin(aa*Math.PI/180);
-      angels.appendChild(s('path',{d:'M0,0 q-5,-3 -8,1 q5,1 8,3 q3,-2 8,3 q-3,-4 -8,-1 z',
-        transform:'translate('+ax.toFixed(1)+' '+ay.toFixed(1)+')',fill:'#fff7e2','fill-opacity':.9}));
-    }
-    if(!reduced) angels.appendChild(rot(CX,CY,10));
-    point.appendChild(angels);
+    var ang=s('g',{});
+    for(var an=0;an<11;an++){var aa=(360/11)*an,rr=54+(an%2?14:0),ax=CX+rr*Math.cos(aa*Math.PI/180),ay=CY+rr*Math.sin(aa*Math.PI/180);
+      ang.appendChild(s('path',{d:'M0,0 q-5,-3 -8,1 q5,1 8,3 q3,-2 8,3 q-3,-4 -8,-1 z',transform:'translate('+ax.toFixed(1)+' '+ay.toFixed(1)+')',fill:'#fff7e2','fill-opacity':.9}));}
+    if(!reduced) ang.appendChild(rot(CX,CY,10));
+    point.appendChild(ang);
     var core=s('circle',{cx:CX,cy:CY,r:7,fill:'#fff'});
-    if(!reduced){var an2=s('animate',{attributeName:'r',values:'6;9.5;6',dur:'2.4s',repeatCount:'indefinite'});core.appendChild(an2);}
+    if(!reduced){var a2=s('animate',{attributeName:'r',values:'6;9.5;6',dur:'2.4s',repeatCount:'indefinite'});core.appendChild(a2);}
     point.appendChild(core);
     mini.appendChild(point); L.point=point;
 
-    // ---- the two figures, always present ----
+    // figures
     var fig=s('g',{});
-    figure(fig,52,512,'#22357e','#ffe39a');    // Beatrice — attending at the lower-left, gazing up
-    figure(fig,348,512,'#b1303a','#3a2e18');   // Dante the pilgrim — lower-right
-    mini.appendChild(fig); L.figures=fig;
+    figure(fig,50,452,'#22357e','#ffe39a');  // Beatrice
+    figure(fig,350,452,'#b1303a','#3a2e18');  // Dante
+    mini.appendChild(fig);
 
-    // ---- living sparks that follow the cursor (the rubies of the river) ----
+    // sparks
     var gsp=s('g',{});
-    for(var sp=0;sp<40;sp++){
-      var bx=rnd(60,340), by=rnd(60,520);
-      var el=s('circle',{cx:bx.toFixed(1),cy:by.toFixed(1),r:rnd(1.4,3).toFixed(2),
-        fill:(sp%3?'#b1303a':'#ffe39a'),'fill-opacity':rnd(.5,.95).toFixed(2)});
-      gsp.appendChild(el);
-      sparks.push({el:el,bx:bx,by:by,x:bx,y:by,ph:rnd(0,6.28),sp:rnd(.4,1)});
-    }
-    mini.appendChild(gsp); L.sparks=gsp;
+    for(var sp=0;sp<34;sp++){var bx=rnd(70,330),by=rnd(60,430);
+      var el=s('circle',{cx:bx.toFixed(1),cy:by.toFixed(1),r:rnd(1.4,3).toFixed(2),fill:(sp%3?'#b1303a':'#ffe39a'),'fill-opacity':rnd(.5,.95).toFixed(2)});
+      gsp.appendChild(el); sparks.push({el:el,bx:bx,by:by,x:bx,y:by,ph:rnd(0,6.28),sp:rnd(.4,1)});}
+    mini.appendChild(gsp);
   }
+  function layer(){var g=s('g',{});g.style.opacity='0';g.style.transition='opacity 1.25s ease';return g;}
+  function rot(cx,cy,dur){return s('animateTransform',{attributeName:'transform',type:'rotate',from:'0 '+cx+' '+cy,to:(dur<0?'-360 ':'360 ')+cx+' '+cy,dur:Math.abs(dur)+'s',repeatCount:'indefinite'});}
+  function bloom(p,cx,cy,col){var g=s('g',{});for(var a=0;a<6;a++)g.appendChild(s('ellipse',{cx:cx,cy:cy,rx:3.2,ry:1.3,fill:col,'fill-opacity':.85,transform:'rotate('+(a*60)+' '+cx+' '+cy+')'}));g.appendChild(s('circle',{cx:cx,cy:cy,r:1.4,fill:'#fff7e2'}));p.appendChild(g);}
+  function figure(p,x,base,robe,cap){var g=s('g',{});
+    g.appendChild(s('path',{d:'M'+(x-11)+','+base+' Q'+x+','+(base-42)+' '+(x+11)+','+base+' Z',fill:robe,stroke:'#0a0c1a','stroke-width':.6}));
+    g.appendChild(s('circle',{cx:x,cy:base-48,r:8,fill:'none',stroke:'#ffe39a','stroke-width':2,'stroke-opacity':.85}));
+    g.appendChild(s('circle',{cx:x,cy:base-48,r:5.5,fill:'#efe7d3'}));
+    g.appendChild(s('path',{d:'M'+(x-5.5)+','+(base-50)+' Q'+x+','+(base-57)+' '+(x+5.5)+','+(base-50)+' Z',fill:cap}));
+    p.appendChild(g);}
 
-  function layer(){var g=s('g',{}); g.style.opacity='0'; g.style.transition='opacity 1.25s ease'; return g;}
-  function rot(cx,cy,dur){return s('animateTransform',{attributeName:'transform',type:'rotate',
-      from:'0 '+cx+' '+cy,to:(dur<0?'-360 ':'360 ')+cx+' '+cy,dur:Math.abs(dur)+'s',repeatCount:'indefinite'});}
-  function bloom(parent,cx,cy,col){
-    var g=s('g',{});
-    for(var a=0;a<6;a++){g.appendChild(s('ellipse',{cx:cx,cy:cy,rx:3.4,ry:1.4,fill:col,'fill-opacity':.85,
-      transform:'rotate('+(a*60)+' '+cx+' '+cy+')'}));}
-    g.appendChild(s('circle',{cx:cx,cy:cy,r:1.5,fill:'#fff7e2'}));
-    parent.appendChild(g);
-  }
-  function figure(parent,x,base,robe,cap){
-    var g=s('g',{});
-    g.appendChild(s('path',{d:'M'+(x-12)+','+base+' Q'+x+','+(base-46)+' '+(x+12)+','+base+' Z',fill:robe,stroke:'#0a0c1a','stroke-width':.6}));
-    g.appendChild(s('circle',{cx:x,cy:base-52,r:9,fill:'none',stroke:'#ffe39a','stroke-width':2,'stroke-opacity':.85}));
-    g.appendChild(s('circle',{cx:x,cy:base-52,r:6,fill:'#efe7d3'}));
-    g.appendChild(s('path',{d:'M'+(x-6)+','+(base-54)+' Q'+x+','+(base-62)+' '+(x+6)+','+(base-54)+' Z',fill:cap}));
-    parent.appendChild(g);
-  }
-
-  /* reveal beats cumulatively: river -> ring -> rose -> point */
   function show(stage){
     if(!L.river) return;
-    var set=function(g,on){ g.style.opacity = on?'1':'0'; };
-    // the vision transforms: each beat replaces the last form, the rose stays beneath the point
-    set(L.river, stage===1);
-    set(L.ring,  stage===2);
-    set(L.rose,  stage>=3);
-    set(L.point, stage>=4);
-    for(var i=0;i<4;i++){ beads[i].classList.toggle('on', stage>=i+1); }
-    verseEl.classList.remove('show');
-    var v=VERSES[stage]||'';
-    if(v){ verseEl.innerHTML=v; setTimeout(function(){verseEl.classList.add('show');}, 220); }
-    else { verseEl.innerHTML=''; }
+    var set=function(g,on){g.style.opacity=on?'1':'0';};
+    set(L.river, stage===1); set(L.ring, stage===2); set(L.rose, stage>=3); set(L.point, stage>=4);
+    for(var i=0;i<4;i++) beads[i].classList.toggle('on', stage>=i+1);
   }
-
-  /* ---- interaction: tap / space / arrow advances the vision ---- */
-  var stage=0, MAX=4;
-  function advance(){
-    if(stage>=MAX){ stage=0; build(); show(0); cueEl.classList.remove('hide'); return; }
-    stage++;
-    show(stage);
-    // the cue hides once the vision is complete; otherwise it keeps inviting the next beat
-    cueEl.classList.toggle('hide', stage>=MAX);
-  }
-  folio.addEventListener('click',advance);
-  window.addEventListener('keydown',function(e){
-    if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'||e.key==='ArrowUp'){e.preventDefault();advance();}
-    else if(e.key==='ArrowLeft'){ if(stage>0){stage--;show(stage);cueEl.classList.remove('hide');} }
-  });
-
-  /* ---- pointer-reactive sparks ---- */
-  var pointer={x:-999,y:-999,on:false};
-  function toVB(clientX,clientY){
-    var r=mini.getBoundingClientRect();
-    return {x:(clientX-r.left)/r.width*400, y:(clientY-r.top)/r.height*560};
-  }
-  folio.addEventListener('pointermove',function(e){var p=toVB(e.clientX,e.clientY);pointer.x=p.x;pointer.y=p.y;pointer.on=true;});
-  folio.addEventListener('pointerleave',function(){pointer.on=false;});
+  function falter(on){ miniFrame.classList.toggle('faltered', !!on); }
 
   var tPrev=0;
-  function tick(ts){
-    var dt=(ts-tPrev)||16; tPrev=ts;
-    for(var i=0;i<sparks.length;i++){
-      var sk=sparks[i];
-      var tx=sk.bx, ty=sk.by;
-      // gentle ambient drift
-      sk.ph+=0.02*sk.sp;
-      tx+=Math.cos(sk.ph)*7; ty+=Math.sin(sk.ph*1.3)*7;
-      // attraction to the cursor
-      if(pointer.on){
-        var dx=pointer.x-sk.x, dy=pointer.y-sk.y, d=Math.sqrt(dx*dx+dy*dy)+0.001;
-        if(d<150){ var pull=(150-d)/150*0.5; tx=sk.x+dx*pull; ty=sk.y+dy*pull; }
-      }
-      sk.x+=(tx-sk.x)*0.06; sk.y+=(ty-sk.y)*0.06;
-      sk.el.setAttribute('cx',sk.x.toFixed(1));
-      sk.el.setAttribute('cy',sk.y.toFixed(1));
-      sk.el.setAttribute('fill-opacity',(0.55+0.4*Math.abs(Math.sin(sk.ph))).toFixed(2));
+  function tick(ts){var dt=(ts-tPrev)||16;tPrev=ts;
+    for(var i=0;i<sparks.length;i++){var sk=sparks[i];sk.ph+=0.02*sk.sp;
+      var tx=sk.bx+Math.cos(sk.ph)*7, ty=sk.by+Math.sin(sk.ph*1.3)*7;
+      sk.x+=(tx-sk.x)*0.05; sk.y+=(ty-sk.y)*0.05;
+      sk.el.setAttribute('cx',sk.x.toFixed(1)); sk.el.setAttribute('cy',sk.y.toFixed(1));
+      sk.el.setAttribute('fill-opacity',(0.55+0.4*Math.abs(Math.sin(sk.ph))).toFixed(2));}
+    requestAnimationFrame(tick);}
+
+  /* ============================ Beatrice (the AI) ============================ */
+  var lineEl=document.getElementById('line'), speechEl=document.getElementById('speech');
+  var echoEl=document.getElementById('echo'), statusEl=document.getElementById('status');
+  var inputEl=document.getElementById('input'), sendBtn=document.getElementById('send');
+  var restartBtn=document.getElementById('restart');
+
+  var MODEL = localStorage.getItem('px_model') || 'claude-opus-4-8';
+  var apiKey = localStorage.getItem('px_anthropic_key') || '';
+  var messages = [];
+  var ended = false;
+
+  var SYSTEM =
+    "You are Beatrice, in Dante's Paradiso, Canto XXX — the Empyrean, the heaven of pure light. "+
+    "The user is Dante, newly risen beside you. Your task is to guide him to the final vision, which unfolds in four beats "+
+    "as his sight grows strong enough to bear it:\n"+
+    "  stage 1 — a RIVER of living light flowing between two banks of flowers, sparks rising from it like rubies;\n"+
+    "  stage 2 — the long river curling at its ends and closing into a RING of light;\n"+
+    "  stage 3 — the ring opening into the immense celestial ROSE, tier upon tier of the blessed;\n"+
+    "  stage 4 — at the rose's heart, the single POINT of light, with the angels wheeling around it like moths around a flame.\n"+
+    "stage 0 is the bare radiance before the river appears.\n\n"+
+    "Speak AS Beatrice: luminous, warm, a little exalted, and brief — one to three sentences. Truly respond to what Dante says. "+
+    "As he looks, trusts, drinks the light with his eyes, and yearns to see truly, advance the vision ONE beat at a time (do not skip beats). "+
+    "If he turns away, mocks, despairs, clings only to you, or refuses to see, the vision falters: set faltering true, gently tell him so, and you may fall back a beat. "+
+    "Reach stage 4 only when he has, with love, turned his gaze to the very centre. You may now and then weave one image from the canto, even a line of Persian if it feels right. "+
+    "Never break character or mention being an AI, a model, or a system.\n\n"+
+    "Always answer through the structured fields: speech (your words to Dante), stage (0-4, the beat now visible), "+
+    "faltering (true only if the vision is dimming because he turned from it), done (true only at the very end, when he rests in the point of light).";
+
+  var SCHEMA = {
+    type:"object",
+    properties:{
+      speech:{type:"string", description:"Beatrice's spoken reply to Dante, 1-3 sentences."},
+      stage:{type:"integer", enum:[0,1,2,3,4], description:"Which beat of the vision is now visible."},
+      faltering:{type:"boolean", description:"True only if the vision is dimming because Dante turned from it."},
+      done:{type:"boolean", description:"True only when Dante reaches the point of light and the vision completes."}
+    },
+    required:["speech","stage","faltering","done"],
+    additionalProperties:false
+  };
+
+  // a short scripted fallback so the site does something with no API key
+  var SCRIPT=[
+    {speech:"Drink the river with your eyes, Dante — do not reach for it with your hands. Look, and tell me what the light becomes.",stage:1},
+    {speech:"You see truly now: the long river curls upon itself and closes into a ring of fire. Do not stop here.",stage:2},
+    {speech:"The ring opens — petal upon petal, the eternal rose of all the blessed. But do not rest your gaze on them.",stage:3},
+    {speech:"Yes. To the centre. One point, brighter than the sun, and the angels wheeling round it like moths around a flame. You have seen.",stage:4,done:true}
+  ];
+  var scriptStep=0;
+
+  function setSpeech(text){ lineEl.style.opacity='0'; setTimeout(function(){ lineEl.textContent=text; lineEl.style.opacity='1'; }, reduced?0:200); }
+  function thinking(on){ speechEl.classList.toggle('thinking', on); if(on) setSpeech('Beatrice gazes into the light…'); }
+  function setBusy(b){ sendBtn.disabled=b; inputEl.disabled=b; }
+
+  function applyTurn(t){
+    show(typeof t.stage==='number'?t.stage:0);
+    falter(!!t.faltering);
+    setSpeech(t.speech);
+    if(t.done){
+      ended=true; statusEl.textContent='The vision is complete.'; restartBtn.style.display='block';
+      inputEl.placeholder='You rest in the point of light…';
     }
-    requestAnimationFrame(tick);
   }
 
+  async function callBeatrice(userText){
+    messages.push({role:'user', content:userText});
+    var res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{
+        'content-type':'application/json',
+        'x-api-key':apiKey,
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:MODEL, max_tokens:1024, system:SYSTEM, messages:messages,
+        output_config:{ format:{ type:"json_schema", schema:SCHEMA } }
+      })
+    });
+    if(!res.ok){
+      var msg='';
+      try{ var e=await res.json(); msg=(e.error&&e.error.message)||''; }catch(_){}
+      messages.pop();
+      var err=new Error(msg||('HTTP '+res.status)); err.status=res.status; throw err;
+    }
+    var data=await res.json();
+    var text=(data.content||[]).filter(function(b){return b.type==='text';}).map(function(b){return b.text;}).join('');
+    messages.push({role:'assistant', content:text});
+    return JSON.parse(text);
+  }
+
+  async function speak(userText){
+    echoEl.textContent = userText ? ('“'+userText+'”') : '';
+    statusEl.textContent='';
+    if(!apiKey){
+      // scripted fallback
+      var t = SCRIPT[Math.min(scriptStep, SCRIPT.length-1)]; scriptStep++;
+      applyTurn({speech:t.speech,stage:t.stage,faltering:false,done:!!t.done});
+      if(!ended) statusEl.innerHTML='Scripted preview · add your key (⚙) to truly speak with Beatrice.';
+      return;
+    }
+    setBusy(true); thinking(true);
+    try{
+      var turn = await callBeatrice(userText);
+      thinking(false);
+      applyTurn(turn);
+    }catch(err){
+      thinking(false);
+      if(err.status===401) statusEl.innerHTML='That key was refused. <a href="#" id="reopen">Check your key</a>.';
+      else if(err.status===429) statusEl.textContent='Rate limited — wait a moment and speak again.';
+      else statusEl.textContent='Beatrice is silent (error: '+(err.message||'network')+').';
+      var r=document.getElementById('reopen'); if(r) r.addEventListener('click',function(e){e.preventDefault();openSettings();});
+    }finally{ setBusy(false); inputEl.focus(); }
+  }
+
+  document.getElementById('composer').addEventListener('submit',function(e){
+    e.preventDefault();
+    if(ended) return;
+    var v=inputEl.value.trim(); if(!v) return;
+    inputEl.value='';
+    speak(v);
+  });
+
+  restartBtn.addEventListener('click',function(){ resetGame(); });
+
+  function resetGame(){
+    messages=[]; ended=false; scriptStep=0; falter(false); show(0);
+    restartBtn.style.display='none'; statusEl.textContent=''; echoEl.textContent='';
+    inputEl.placeholder='Answer Beatrice…'; inputEl.disabled=false; sendBtn.disabled=false;
+    setSpeech("Look at me, Dante — we have risen past the last sphere, into the heaven that is only light. Do not fear the brightness. Tell me: what do you wish to see?");
+    inputEl.focus();
+  }
+
+  /* ---------------- settings ---------------- */
+  var veil=document.getElementById('veil');
+  var keyInput=document.getElementById('keyInput'), modelInput=document.getElementById('modelInput');
+  function openSettings(){ keyInput.value=apiKey; modelInput.value=MODEL; veil.classList.add('show'); keyInput.focus(); }
+  function closeSettings(){ veil.classList.remove('show'); }
+  document.getElementById('gear').addEventListener('click',openSettings);
+  document.getElementById('closeKey').addEventListener('click',closeSettings);
+  document.getElementById('saveKey').addEventListener('click',function(){
+    apiKey=keyInput.value.trim(); MODEL=modelInput.value;
+    if(apiKey) localStorage.setItem('px_anthropic_key',apiKey); else localStorage.removeItem('px_anthropic_key');
+    localStorage.setItem('px_model',MODEL);
+    closeSettings();
+    statusEl.textContent = apiKey ? 'Beatrice is listening.' : 'No key — scripted preview.';
+  });
+  veil.addEventListener('click',function(e){ if(e.target===veil) closeSettings(); });
+
+  /* ---------------- boot ---------------- */
   build(); show(0);
   if(!reduced) requestAnimationFrame(tick);
+  resetGame();
+  if(!apiKey){ openSettings(); }
 })();
 </script>
 </body>
