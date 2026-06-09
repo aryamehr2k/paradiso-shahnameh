@@ -12,9 +12,12 @@ The story stays Dante. The picture becomes a Safavid folio.
 
 ## Play it
 
-An interactive, choose-your-line adaptation of *Paradiso* XXX: you play as Dante,
-speaking to Beatrice as you ascend, with multiple endings depending on what you
-say and how you choose to see. **Play it live:**
+An interactive, almost wordless visual adaptation of *Paradiso* XXX: tap (or press
+space) to let the vision **paint itself as a Safavid folio** — a river of light
+that coils into a ring, blooms into the Celestial Rose, and condenses to a single
+point with the angels wheeling around it. The living sparks gather toward your
+cursor, and the three beats are inscribed with Persian couplets in the *Shahnameh*
+metre. **Play it live:**
 [aryamehr2k.github.io/paradiso-shahnameh](https://aryamehr2k.github.io/paradiso-shahnameh/)
 
 We do it by training a small **style LoRA** on public-domain Persian-miniature
