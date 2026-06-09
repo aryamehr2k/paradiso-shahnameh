@@ -10,22 +10,18 @@ idiom of **Persian miniature painting**, the *Shahnameh* manuscript tradition.
 
 The story stays Dante. The picture becomes a Safavid folio.
 
-## Play it — *Speak with Beatrice*
+## Read it — an illuminated, interactive *Paradiso* XXX
 
-An interactive adaptation of *Paradiso* XXX where you stand in **Dante's** shoes and
-talk, in your own words, to an **AI playing Beatrice**. She answers in character and
-guides you through the vision — and what you say steers it: the illuminated Safavid
-folio **paints itself** beat by beat (a river of light → a ring → the Celestial Rose →
-the point of light with the angels wheeling) as your sight grows strong enough, and
-**dims if you turn away**. **Play it live:**
+An interactive reading of the canto as a three-folio Safavid manuscript. You step
+through the three movements of the vision — **I. The River of Light → II. The River
+Becomes the Rose → III. The Celestial Rose** — each pairing the LoRA-rendered miniature
+with its verse: the Persian couplet (in the *Shahnameh* metre), a transliteration, and
+an English reading. Advance by clicking the folio, pressing the arrow keys, or using the
+movement dots; toggle the transliteration and translation on or off. **Read it live:**
 [aryamehr2k.github.io/paradiso-shahnameh](https://aryamehr2k.github.io/paradiso-shahnameh/)
 
-Beatrice is driven by the **Claude API** (model `claude-opus-4-8`), called from the
-browser with structured output that controls the visualization. Because the site is
-static, it's **bring-your-own-key**: click ⚙ and paste your own
-[Anthropic API key](https://console.anthropic.com/settings/keys) — it's stored only in
-your browser (localStorage) and sent directly to Anthropic, never committed. Without a
-key, a short scripted version still plays.
+It's a single self-contained HTML page (no build, no dependencies) that displays the
+three `samples/` renders alongside the text.
 
 We do it by training a small **style LoRA** on public-domain Persian-miniature
 folios, then prompting **FLUX.1-dev** with the three beats of Canto XXX — the
